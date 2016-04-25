@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MusicPimp.Pages;
+using MusicPimp.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -67,6 +69,8 @@ namespace MusicPimp
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
+
+            PageNavigationService.Instance.Register(new PimpNavigationHandler(rootFrame));
 
             if (e.PrelaunchActivated == false)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MusicPimp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,20 @@ namespace MusicPimp.Pages
     /// </summary>
     public sealed partial class Library : Page
     {
+        public LibraryVM ViewModel { get; set; }
+
         public Library()
         {
             this.InitializeComponent();
+            ViewModel = new LibraryVM();
+            DataContext = ViewModel;
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel.Update(e.Parameter as string);
+            base.OnNavigatedTo(e);
+        }
+
     }
 }

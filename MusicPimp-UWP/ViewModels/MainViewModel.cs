@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MusicPimp.Pages;
+using MusicPimp.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,6 +24,11 @@ namespace MusicPimp.ViewModels
             {
                 Feedback = "You entered: " + Input;
             }
+        }
+
+        public void OpenLibrary()
+        {
+            PageNavigationService.Instance.NavigateWithParam(typeof(Library), "boom");
         }
 
         private string feedback = "Waiting...";
