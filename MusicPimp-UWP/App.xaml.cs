@@ -9,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -72,6 +73,9 @@ namespace MusicPimp
 
             PageNavigationService.Instance.Register(new PimpNavigationHandler(rootFrame));
 
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+
+
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -83,6 +87,21 @@ namespace MusicPimp
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+            }
+        }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+                return;
+
+            // Navigate back if possible, and if the event has not 
+            // already been handled .
+            if (rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
             }
         }
 

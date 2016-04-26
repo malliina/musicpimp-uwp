@@ -1,11 +1,13 @@
 ﻿using MusicPimp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,7 +23,7 @@ namespace MusicPimp.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Library : Page
+    public sealed partial class Library : BasePage
     {
         public LibraryVM ViewModel { get; set; }
 
@@ -37,6 +39,5 @@ namespace MusicPimp.Pages
             ViewModel.Update(e.Parameter as string);
             base.OnNavigatedTo(e);
         }
-
     }
 }
