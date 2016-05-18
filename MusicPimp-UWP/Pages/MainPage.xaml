@@ -1,6 +1,7 @@
 ﻿<p:BasePage
     x:Class="MusicPimp.Pages.MainPage"
     xmlns:p="using:MusicPimp.Pages"
+    xmlns:conv="using:MusicPimp.Converters"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MusicPimp"
@@ -8,6 +9,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BooleanVisibility"/>
+        <x:String x:Key="greeting">Hello world</x:String>
+        <x:String x:Key="goodbye">Goodbye world</x:String>
+    </Page.Resources>
+
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel x:Name="contentPanel" Margin="8,32,0,0">
@@ -19,6 +27,22 @@
             </StackPanel>
             <TextBlock Text="{x:Bind ViewModel.Feedback, Mode=OneWay}"/>
             <TextBlock Text="{x:Bind TextInput.Text, Mode=OneWay}"/>
+            <Grid>
+                <!-- Busy indicator -->
+                <TextBlock Text="Loading..."
+                           Visibility="{Binding Channel.IsNotCompleted, Converter={StaticResource BooleanVisibility}}"/>
+                <!-- Results -->
+                <RichTextBlock TextWrapping="Wrap"
+                               Visibility="{Binding Channel.IsSuccessfullyCompleted, Converter={StaticResource BooleanVisibility}}">
+                    <Paragraph>
+                        <Run Text="{Binding ChannelUri}"/>
+                    </Paragraph>                    
+                </RichTextBlock>
+                <!-- Error details -->
+                <TextBlock Text="{Binding Channel.ErrorMessage}" 
+                           Visibility="{Binding Channel.IsFaulted, Converter={StaticResource BooleanVisibility}}"/>
+            </Grid>
+
             <HyperlinkButton HorizontalAlignment="Center" Content="Click to go to page 2" Click="{x:Bind ViewModel.OpenLibrary}"/>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>

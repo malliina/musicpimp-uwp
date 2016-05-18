@@ -6,6 +6,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.Foundation;
+using Windows.Networking.PushNotifications;
+using Windows.UI.Core;
 
 namespace MusicPimp.ViewModels
 {
@@ -14,7 +18,31 @@ namespace MusicPimp.ViewModels
         public MainViewModel()
         {
             Debug.WriteLine("Creating MainViewModel");
+            Channel = new NotifyTaskCompletion<PushNotificationChannel>(loadChannelUri());
         }
+
+        private NotifyTaskCompletion<PushNotificationChannel> channel;
+        public NotifyTaskCompletion<PushNotificationChannel> Channel
+        {
+            get { return channel; }
+            set {
+                if (SetProperty(ref channel, value))
+                {
+                    OnPropertyChanged("ChannelUri");
+                }
+            }
+        }
+
+        public string ChannelUri
+        {
+            get { return Channel?.Result.Uri ?? ""; }
+        }
+
+        private async Task<PushNotificationChannel> loadChannelUri()
+        {
+            return await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+        }
+
         public void OnButtonClicked()
         {
             if(Input.Length == 0)
@@ -43,6 +71,12 @@ namespace MusicPimp.ViewModels
         {
             get { return input; }
             set { SetProperty(ref input, value); }
+        }
+
+        public async Task OnUiThreadAsync(Action uiCode)
+        {
+            var dispatcher = CoreApplication.MainView.CoreWindow.Dispatcher;
+            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => uiCode());
         }
     }
 }
