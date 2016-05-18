@@ -35,7 +35,7 @@ namespace MusicPimp.ViewModels
 
         public string ChannelUri
         {
-            get { return Channel?.Result.Uri ?? ""; }
+            get { return Channel?.Result?.Uri ?? ""; }
         }
 
         private async Task<PushNotificationChannel> loadChannelUri()
