@@ -23,6 +23,8 @@ namespace MusicPimp.Pages
     /// </summary>
     public sealed partial class MainPage : BasePage
     {
+        public MainViewModel ViewModel { get; set; }
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -30,6 +32,23 @@ namespace MusicPimp.Pages
             DataContext = ViewModel;
         }
 
-        public MainViewModel ViewModel { get; set; }
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var isDict = e.Parameter is IDictionary<string, string>;
+            if (isDict)
+            {
+                var dict = e.Parameter as IDictionary<string, string>;
+                await ViewModel.Initialize(dict);
+            }
+            else
+            {
+                var dict = new Dictionary<string, string>()
+                {
+                    { "folder", "" }
+                };
+                await ViewModel.Initialize(dict);
+            }
+        }
     }
 }

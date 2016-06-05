@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-
 namespace MusicPimp.ViewModels
 {
     /// <summary>

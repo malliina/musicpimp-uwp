@@ -18,33 +18,58 @@
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel x:Name="contentPanel" Margin="8,32,0,0">
-            <TextBlock Text="Hello, world!" Margin="0,0,0,40"/>
-            <TextBlock Text="What's your name?"/>
-            <StackPanel x:Name="inputPanel" Orientation="Horizontal" Margin="0,20,0,20">
-                <TextBox x:Name="TextInput" Width="280" HorizontalAlignment="Left" Text="{x:Bind ViewModel.Input,Mode=TwoWay}"/>
-                <Button x:Name="inputButton" Content="Say &quot;Hello&quot;" Click="{x:Bind ViewModel.OnButtonClicked}"/>
-            </StackPanel>
-            <TextBlock Text="{x:Bind ViewModel.Feedback, Mode=OneWay}"/>
-            <TextBlock Text="{x:Bind TextInput.Text, Mode=OneWay}"/>
-            <Grid>
-                <!-- Busy indicator -->
-                <TextBlock Text="Loading..."
-                           Visibility="{Binding Channel.IsNotCompleted, Converter={StaticResource BooleanVisibility}}"/>
-                <!-- Results -->
-                <RichTextBlock TextWrapping="Wrap"
-                               Visibility="{Binding Channel.IsSuccessfullyCompleted, Converter={StaticResource BooleanVisibility}}">
-                    <Paragraph>
-                        <Run Text="{Binding ChannelUri}"/>
-                    </Paragraph>                    
-                </RichTextBlock>
-                <!-- Error details -->
-                <TextBlock Text="{Binding Channel.ErrorMessage}" 
-                           Visibility="{Binding Channel.IsFaulted, Converter={StaticResource BooleanVisibility}}"/>
-            </Grid>
+        <Pivot>
+            <PivotItem Header="Random">
+                <StackPanel x:Name="contentPanel"
+                            Margin="8,32,0,0">
+                    <TextBlock Text="Hello, world!"
+                               Margin="0,0,0,40"/>
+                    <TextBlock Text="What's your name?"/>
+                    <StackPanel x:Name="inputPanel"
+                                Orientation="Horizontal"
+                                Margin="0,20,0,20">
+                        <TextBox x:Name="TextInput" 
+                                 Width="280" 
+                                 HorizontalAlignment="Left" 
+                                 Text="{x:Bind ViewModel.Input,Mode=TwoWay}"/>
+                        <Button x:Name="inputButton" 
+                                Content="Say &quot;Hello&quot;" 
+                                Click="{x:Bind ViewModel.OnButtonClicked}"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind ViewModel.Feedback, Mode=OneWay}"/>
+                    <TextBlock Text="{x:Bind TextInput.Text, Mode=OneWay}"/>
+                    <Grid>
+                        <!-- Busy indicator -->
+                        <TextBlock Text="Loading..."
+                                   Visibility="{Binding Channel.IsNotCompleted, Converter={StaticResource BooleanVisibility}}"/>
+                        <!-- Results -->
+                        <RichTextBlock TextWrapping="Wrap"
+                                       Visibility="{Binding Channel.IsSuccessfullyCompleted, Converter={StaticResource BooleanVisibility}}">
+                            <Paragraph>
+                                <Run Text="{Binding ChannelUri}"/>
+                            </Paragraph>
+                        </RichTextBlock>
+                        <!-- Error details -->
+                        <TextBlock Text="{Binding Channel.ErrorMessage}"
+                                   Visibility="{Binding Channel.IsFaulted, Converter={StaticResource BooleanVisibility}}"/>
+                    </Grid>
+                    <HyperlinkButton HorizontalAlignment="Center" 
+                             Content="Click to go to page 2"
+                             Click="{x:Bind ViewModel.OpenLibrary}"/>
+                    <Button Content="Do it"
+                            Command="{x:Bind ViewModel.DoIt}"/>
+                    <TextBlock Text="{x:Bind ViewModel.DoItFeedback, Mode=OneWay}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Library">
+                <p:Library Folder="{x:Bind ViewModel.Folder}"/>
+            </PivotItem>
+            <PivotItem Header="Player">
 
-            <HyperlinkButton HorizontalAlignment="Center" Content="Click to go to page 2" Click="{x:Bind ViewModel.OpenLibrary}"/>
-        </StackPanel>
+            </PivotItem>
+        </Pivot>
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="wideState">

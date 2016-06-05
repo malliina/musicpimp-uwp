@@ -1,13 +1,11 @@
 ﻿using MusicPimp.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,28 +14,24 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MusicPimp.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class Library : BasePage
+    public sealed partial class Library : UserControl
     {
-        public LibraryVM ViewModel { get; set; }
-
         public Library()
         {
-            this.InitializeComponent();
-            ViewModel = new LibraryVM();
-            DataContext = ViewModel;
+            InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public FolderVM Folder
         {
-            ViewModel.Update(e.Parameter as string);
-            base.OnNavigatedTo(e);
+            get { return (FolderVM)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Folder", typeof(FolderVM), typeof(Library), new PropertyMetadata(null));
     }
 }

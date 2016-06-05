@@ -100,25 +100,32 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Audio\AudioConversions.cs" />
+    <Compile Include="Audio\LibraryManager.cs" />
+    <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\PimpJson.cs" />
+    <Compile Include="Common\HttpUtil.cs" />
+    <Compile Include="Network\PimpLibrary.cs" />
+    <Compile Include="Network\ResponseException.cs" />
     <Compile Include="Pages\BasePage.cs" />
-    <Compile Include="Pages\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Library.xaml.cs">
       <DependentUpon>Library.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Player.xaml.cs">
-      <DependentUpon>Player.xaml</DependentUpon>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Playlist.xaml.cs">
-      <DependentUpon>Playlist.xaml</DependentUpon>
+    <Compile Include="Pages\Motd.xaml.cs">
+      <DependentUpon>Motd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\INavigationService.cs" />
-    <Compile Include="Services\PageNavigationService.cs" />
-    <Compile Include="Services\PimpNavigationHandler.cs" />
-    <Compile Include="ViewModels\LibraryVM.cs" />
+    <Compile Include="Navigation\INavigationService.cs" />
+    <Compile Include="Navigation\PageNavigationService.cs" />
+    <Compile Include="Navigation\PimpNavigationHandler.cs" />
+    <Compile Include="ViewModels\FolderVM.cs" />
+    <Compile Include="ViewModels\LoadingViewModel.cs" />
+    <Compile Include="ViewModels\MotdVM.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MusicItem.cs" />
     <Compile Include="ViewModels\NotifyTaskCompletion.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,19 +152,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Pages\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\Library.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Player.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Playlist.xaml">
+    <Page Include="Pages\Motd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

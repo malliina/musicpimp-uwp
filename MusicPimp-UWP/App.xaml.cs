@@ -2,6 +2,7 @@
 using MusicPimp.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -45,12 +46,41 @@ namespace MusicPimp
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+            var rootFrame = InitRootFrame(e);
+            if (e.PrelaunchActivated == false)
             {
-                this.DebugSettings.EnableFrameRateCounter = false;
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                }
+                // Ensure the current window is active
+                Window.Current.Activate();
             }
-#endif
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            var rootFrame = InitRootFrame(args);
+            if (args.Kind == ActivationKind.ToastNotification)
+            {
+                var toastArgs = args as ToastNotificationActivatedEventArgs;
+                var arguments = toastArgs.Argument;
+                var input = toastArgs.UserInput;
+                Debug.WriteLine("Activated from toast with arguments: " + arguments);
+                rootFrame.Navigate(typeof(MainPage), arguments);
+            } else
+            {
+                rootFrame.Navigate(typeof(MainPage));
+            }
+            
+            Window.Current.Activate();
+        }
+
+        private Frame InitRootFrame(IActivatedEventArgs e)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -69,25 +99,12 @@ namespace MusicPimp
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+
+                PageNavigationService.Instance.Register(new PimpNavigationHandler(rootFrame));
+
+                SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
             }
-
-            PageNavigationService.Instance.Register(new PimpNavigationHandler(rootFrame));
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
-
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            return rootFrame;
         }
 
         private void App_BackRequested(object sender, BackRequestedEventArgs e)
@@ -128,5 +145,7 @@ namespace MusicPimp
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        
     }
 }

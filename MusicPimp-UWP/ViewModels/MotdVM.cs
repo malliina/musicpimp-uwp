@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicPimp.ViewModels
 {
-    public class LibraryVM : ViewModelBase
+    public class MotdVM : ViewModelBase
     {
         private string motd = "No messages today!";
         public string Motd
