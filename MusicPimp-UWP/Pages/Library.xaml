@@ -12,10 +12,15 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <conv:BooleanToVisibilityConverter x:Key="BooleanVisibility"/>
+        <conv:NoopConverter x:Key="NoopConverter"/>
     </UserControl.Resources>
 
     <Grid>
-        <ListView ItemsSource="{x:Bind Folder.Items}">
+        <ListView ItemsSource="{x:Bind Folder.Items, Mode=OneWay}"
+                  SelectionMode="Single"
+                  IsItemClickEnabled="True"
+                  SelectedIndex="{x:Bind Folder.SelectedIndex, Mode=TwoWay}"
+                  SelectedItem="{x:Bind Folder.SelectedItem, Mode=TwoWay, Converter={StaticResource NoopConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:MusicItem">
                     <Grid>
@@ -30,10 +35,10 @@
                         <TextBlock Text="{x:Bind Name}"/>
                         <TextBlock Text="{x:Bind Artist}" 
                                    Grid.Row="1"/>
-                        <ProgressBar Grid.Column="1" Grid.Row="2" 
-                             Value="{Binding BytesReceived}"
-                             Maximum="{Binding Size}"
-                             Visibility="{Binding IsDownloading,Converter={StaticResource BooleanVisibility}}"/>
+                        <ProgressBar Grid.Column="1" Grid.Row="2"
+                                     Value="{Binding BytesReceived}"
+                                     Maximum="{Binding Size}"
+                                     Visibility="{Binding IsDownloading,Converter={StaticResource BooleanVisibility}}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

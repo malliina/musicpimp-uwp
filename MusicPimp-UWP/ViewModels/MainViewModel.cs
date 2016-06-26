@@ -96,7 +96,7 @@ namespace MusicPimp.ViewModels
 
         public void OpenLibrary()
         {
-            //PageNavigationService.Instance.NavigateWithParam(typeof(Library), "boom");
+            PageNavigationService.Instance.NavigateWithParam(typeof(Motd), "boom");
         }
 
         private string doItFeedback = "Waiting for a click...";
@@ -120,10 +120,5 @@ namespace MusicPimp.ViewModels
             set { SetProperty(ref input, value); }
         }
 
-        public async Task OnUiThreadAsync(Action uiCode)
-        {
-            var dispatcher = CoreApplication.MainView.CoreWindow.Dispatcher;
-            await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => uiCode());
-        }
     }
 }

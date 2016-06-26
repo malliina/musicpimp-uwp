@@ -1,6 +1,7 @@
 ﻿using MusicPimp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,7 +28,7 @@ namespace MusicPimp.Pages
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ViewModel = new MainViewModel();
             DataContext = ViewModel;
         }
@@ -35,10 +36,11 @@ namespace MusicPimp.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            var isDict = e.Parameter is IDictionary<string, string>;
+            var parameter = e.Parameter;
+            var isDict = parameter is IDictionary<string, string>;
             if (isDict)
             {
-                var dict = e.Parameter as IDictionary<string, string>;
+                var dict = parameter as IDictionary<string, string>;
                 await ViewModel.Initialize(dict);
             }
             else

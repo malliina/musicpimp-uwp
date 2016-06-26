@@ -19,6 +19,12 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Pivot>
+            <PivotItem Header="Library">
+                <p:Library Folder="{x:Bind ViewModel.Folder}"/>
+            </PivotItem>
+            <PivotItem Header="Player">
+
+            </PivotItem>
             <PivotItem Header="Random">
                 <StackPanel x:Name="contentPanel"
                             Margin="8,32,0,0">
@@ -61,12 +67,6 @@
                     <TextBlock Text="{x:Bind ViewModel.DoItFeedback, Mode=OneWay}"
                                TextWrapping="Wrap"/>
                 </StackPanel>
-            </PivotItem>
-            <PivotItem Header="Library">
-                <p:Library Folder="{x:Bind ViewModel.Folder}"/>
-            </PivotItem>
-            <PivotItem Header="Player">
-
             </PivotItem>
         </Pivot>
         

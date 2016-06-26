@@ -1,4 +1,5 @@
-﻿using MusicPimp.Pages;
+﻿using MusicPimp.Audio;
+using MusicPimp.Pages;
 using MusicPimp.Services;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,7 @@ namespace MusicPimp
             var rootFrame = InitRootFrame(e);
             if (e.PrelaunchActivated == false)
             {
+                AudioLifecycle.Instance.OnAppActivated();
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,
@@ -63,7 +65,9 @@ namespace MusicPimp
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
+            Debug.WriteLine("App activated");
             var rootFrame = InitRootFrame(args);
+            AudioLifecycle.Instance.OnAppActivated();
             if (args.Kind == ActivationKind.ToastNotification)
             {
                 var toastArgs = args as ToastNotificationActivatedEventArgs;
@@ -75,7 +79,6 @@ namespace MusicPimp
             {
                 rootFrame.Navigate(typeof(MainPage));
             }
-            
             Window.Current.Activate();
         }
 
@@ -142,7 +145,7 @@ namespace MusicPimp
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            AudioLifecycle.Instance.OnDeactivated();
             deferral.Complete();
         }
 
